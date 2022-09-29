@@ -4,10 +4,10 @@
 
 #include "BallisticCalc.h"
 
-const double gravitationalAcceleration = 9.8;
+const double gravitationalAcceleration = -9.8;
 const double passesPerSecond = 1000;
-const double airDensity = 1.225;
-const double dragCoefficiant = 0.1774;
+const double airDensity = 1.204;
+const double dragCoefficiant = 0.100;
 
 double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegree, double muzzleVelocityMeterPerSecond, double massOfShellKilograms){
     // Calculate Constants
@@ -21,7 +21,7 @@ double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegre
 
     // Current Position of Shell
     double currentXAxisPosition = 0;
-    double currentYAxisPostion = 0;
+    double currentYAxisPosition = 0;
 
     // Next Position of Shell
     double nextXAxisPosition = 0;
@@ -44,13 +44,17 @@ double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegre
     double deltaY = 0;
 
     // Loop to find range
-    while(currentYAxisPostion > 0) {
+    while((currentYAxisPosition >= 0) && (currentTimeMilliseconds < (120*passesPerSecond))) {
         // Find force of air on shell
-        forceOfAirOnShell = -( ( (0.5)*dragCoefficiant*airDensity*shellArea*((currentVelocity)*(currentVelocity))) / passesPerSecond );
+        forceOfAirOnShell = -( ( (0.5)*dragCoefficiant*airDensity*shellArea*((currentVelocity)*(currentVelocity)))  );
 
         // Find force in both axis
-        xAxisForce = ( cos(currentShellAngleRadians) * forceOfAirOnShell);
-        yAxisForce = ( sin(currentShellAngleRadians) * forceOfAirOnShell) + (forceOfGravity/passesPerSecond);
+        xAxisForce = ( cos(currentShellAngleRadians) * forceOfAirOnShell)/passesPerSecond;
+        yAxisForce = ( sin(currentShellAngleRadians) * forceOfAirOnShell)/passesPerSecond + (forceOfGravity/passesPerSecond);
+
+        // Find acceleration in both axis
+        xAxisAcceleration = (xAxisForce/passesPerSecond);
+        yAxisAcceleration = (yAxisForce/passesPerSecond);
 
         // Find velocity in both axis
         xAxisVelocity = ( (cos(currentShellAngleRadians)*currentVelocity) + xAxisAcceleration );
@@ -62,7 +66,7 @@ double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegre
 
         // Update the position
         currentXAxisPosition = currentXAxisPosition + deltaX;
-        currentYAxisPostion = currentYAxisPostion + deltaY;
+        currentYAxisPosition = currentYAxisPosition + deltaY;
 
         // Update current velocity
         currentVelocity = fabs( sqrt( ( ( xAxisVelocity)*(xAxisVelocity) + (yAxisVelocity)*(yAxisVelocity)) ) );
@@ -72,9 +76,11 @@ double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegre
 
         // Update current time in milliseconds
         currentTimeMilliseconds++;
+
+        //printf("Time: [%5f]  | X: [%5.2f]  | Y:  [%5.2f] | Angle  [%5.2f]  | Drag: [%5.4f]  |X-Axis acceleration: [%5.4f]  | Y-Axis acceleration: [%5.4f]  | Current Velocity [%5.4f]\n",(currentTimeMilliseconds/passesPerSecond),currentXAxisPosition,currentYAxisPosition,currentShellAngleRadians,forceOfAirOnShell,xAxisAcceleration,yAxisAcceleration,currentVelocity);
     }
-    printf("Range in Meters    = %5.2f \n",currentXAxisPosition);
-    printf("Final Velocity m/s = %5.2f \n",currentVelocity);
+    //printf("Range in Meters    = %5.2f \n",currentXAxisPosition);
+    printf("Total time in seconds = %5.2f \n",currentTimeMilliseconds/passesPerSecond);
 
     return currentXAxisPosition;
 
