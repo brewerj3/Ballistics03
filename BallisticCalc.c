@@ -1,5 +1,7 @@
 
 #include <math.h>
+#include <stdio.h>
+
 #include "BallisticCalc.h"
 
 const double gravitationalAcceleration = 9.8;
@@ -71,5 +73,9 @@ double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegre
         // Update current time in milliseconds
         currentTimeMilliseconds++;
     }
+    printf("Range in Meters    = %5.2f \n",currentXAxisPosition);
+    printf("Final Velocity m/s = %5.2f \n",currentVelocity);
+
+    return currentXAxisPosition;
 
 }
