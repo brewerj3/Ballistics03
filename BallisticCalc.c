@@ -46,8 +46,30 @@ double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegre
         // Find force of air on shell
         forceOfAirOnShell = -( ( (0.5)*dragCoefficiant*airDensity*shellArea*((currentVelocity)*(currentVelocity))) / passesPerSecond );
 
-        //Find force in both axis
-        xAxisForce = ( cos(currentShellAngleRadians))
+        // Find force in both axis
+        xAxisForce = ( cos(currentShellAngleRadians) * forceOfAirOnShell);
+        yAxisForce = ( sin(currentShellAngleRadians) * forceOfAirOnShell) + (forceOfGravity/passesPerSecond);
+
+        // Find velocity in both axis
+        xAxisVelocity = ( (cos(currentShellAngleRadians)*currentVelocity) + xAxisAcceleration );
+        yAxisVelocity = ( (sin(currentShellAngleRadians)*currentVelocity) + yAxisAcceleration );
+
+        // Find change in velocity for both axis
+        deltaX = ( (cos(currentShellAngleRadians)*currentVelocity)/passesPerSecond + xAxisAcceleration );
+        deltaY = ( (sin(currentShellAngleRadians)*currentVelocity)/passesPerSecond + yAxisAcceleration );
+
+        // Update the position
+        currentXAxisPosition = currentXAxisPosition + deltaX;
+        currentYAxisPostion = currentYAxisPostion + deltaY;
+
+        // Update current velocity
+        currentVelocity = fabs( sqrt( ( ( xAxisVelocity)*(xAxisVelocity) + (yAxisVelocity)*(yAxisVelocity)) ) );
+
+        // Update current shell angle
+        currentShellAngleRadians = atan((yAxisVelocity/xAxisVelocity));
+
+        // Update current time in milliseconds
+        currentTimeMilliseconds++;
     }
 
 }
