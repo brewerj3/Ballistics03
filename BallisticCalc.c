@@ -1,18 +1,53 @@
-///////////////////////////////////////////////////////////////////////////////
-///         University of Hawaii, College of Engineering
-/// @brief  Ballistics03 - EE 205 - Spr 2022
-///
-/// @file BallisticCalc.c
-/// @version 1.0
-///
-/// @author Joshua Brewer <brewerj3@hawaii.edu>
-/// @date   29_Sep_2022
-///////////////////////////////////////////////////////////////////////////////
+
+#include <math.h>
 #include "BallisticCalc.h"
 
 const double gravitationalAcceleration = 9.8;
 const double passesPerSecond = 1000;
+const double airDensity = 1.225;
+const double dragCoefficiant = 0.1774;
 
-double calculateRangeMetric(double shellDiameterInMeters, double angleOfGun, double muzzleVelocityMeterPerSecond, double massOfShellKilograms){
+double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegree, double muzzleVelocityMeterPerSecond, double massOfShellKilograms){
+    // Calculate Constants
+    const double forceOfGravity = gravitationalAcceleration*massOfShellKilograms;
+    const double shellArea = (3.14159265358979323846)*((shellDiameterInMeters/2)*(shellDiameterInMeters/2));
+
+    double currentVelocity = muzzleVelocityMeterPerSecond;
+    double forceOfAirOnShell = 0;
+    double currentShellAngleRadians = angleOfGunDegree*(3.14159265358979323846/180);
+    unsigned currentTimeMilliseconds = 0;
+
+    // Current Position of Shell
+    double currentXAxisPosition = 0;
+    double currentYAxisPostion = 0;
+
+    // Next Position of Shell
+    double nextXAxisPosition = 0;
+    double nextYAxisPosition = 0;
+
+    // Velocity by axis
+    double xAxisVelocity = 0;
+    double yAxisVelocity = 0;
+
+    // Acceleration by axis
+    double xAxisAcceleration = 0;
+    double yAxisAcceleration = 0;
+
+    // Force by axis
+    double xAxisForce = 0;
+    double yAxisForce = 0;
+
+    // Change in Velocity by axis
+    double deltaX = 0;
+    double deltaY = 0;
+
+    // Loop to find range
+    while(currentYAxisPostion > 0) {
+        // Find force of air on shell
+        forceOfAirOnShell = -( ( (0.5)*dragCoefficiant*airDensity*shellArea*((currentVelocity)*(currentVelocity))) / passesPerSecond );
+
+        //Find force in both axis
+        xAxisForce = ( cos(currentShellAngleRadians))
+    }
 
 }

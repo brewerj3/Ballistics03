@@ -1,5 +1,5 @@
 
 
+#pragma once
 
-
-extern double calculateRangeMetric(double shellDiameterInMeters, double angleOfGun, double muzzleVelocityMeterPerSecond, double massOfShellKilograms);
+extern double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegree, double muzzleVelocityMeterPerSecond, double massOfShellKilograms);
