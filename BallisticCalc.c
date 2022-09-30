@@ -7,7 +7,7 @@
 const double gravitationalAcceleration = -9.8;
 const double passesPerSecond = 1000;
 const double airDensity = 1.204;
-const double dragCoefficiant = 0.100;
+const double dragCoefficiant = 0.186;
 
 double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegree, double muzzleVelocityMeterPerSecond, double massOfShellKilograms){
     // Calculate Constants
@@ -49,12 +49,12 @@ double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegre
         forceOfAirOnShell = -( ( (0.5)*dragCoefficiant*airDensity*shellArea*((currentVelocity)*(currentVelocity)))  );
 
         // Find force in both axis
-        xAxisForce = ( cos(currentShellAngleRadians) * forceOfAirOnShell)/passesPerSecond;
-        yAxisForce = ( sin(currentShellAngleRadians) * forceOfAirOnShell)/passesPerSecond + (forceOfGravity/passesPerSecond);
+        xAxisForce = ( cos(currentShellAngleRadians) * forceOfAirOnShell);
+        yAxisForce = ( sin(currentShellAngleRadians) * forceOfAirOnShell) + (forceOfGravity);
 
         // Find acceleration in both axis
-        xAxisAcceleration = (xAxisForce/passesPerSecond);
-        yAxisAcceleration = (yAxisForce/passesPerSecond);
+        xAxisAcceleration = (xAxisForce/massOfShellKilograms)/passesPerSecond;
+        yAxisAcceleration = (yAxisForce/massOfShellKilograms)/passesPerSecond;
 
         // Find velocity in both axis
         xAxisVelocity = ( (cos(currentShellAngleRadians)*currentVelocity) + xAxisAcceleration );
@@ -79,8 +79,8 @@ double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegre
 
         //printf("Time: [%5f]  | X: [%5.2f]  | Y:  [%5.2f] | Angle  [%5.2f]  | Drag: [%5.4f]  |X-Axis acceleration: [%5.4f]  | Y-Axis acceleration: [%5.4f]  | Current Velocity [%5.4f]\n",(currentTimeMilliseconds/passesPerSecond),currentXAxisPosition,currentYAxisPosition,currentShellAngleRadians,forceOfAirOnShell,xAxisAcceleration,yAxisAcceleration,currentVelocity);
     }
-    //printf("Range in Meters    = %5.2f \n",currentXAxisPosition);
-    printf("Total time in seconds = %5.2f \n",currentTimeMilliseconds/passesPerSecond);
+    //printf("Current Height   = %5.2f |  ",currentYAxisPosition);
+    //printf("Total time in seconds = %5.2f \n",currentTimeMilliseconds/passesPerSecond);
 
     return currentXAxisPosition;
 
