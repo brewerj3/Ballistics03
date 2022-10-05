@@ -1,10 +1,11 @@
 
 #include <math.h>
+#include <stdio.h>
 
 #include "BallisticCalc.h"
 
 const double gravitationalAcceleration = -9.8;
-const double passesPerSecond = 10000;
+const unsigned passesPerSecond = 1000;
 const double airDensity = 1.204;
 const double dragCoefficiant = 0.186;
 
@@ -42,6 +43,8 @@ double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegre
     double deltaX = 0;
     double deltaY = 0;
 
+    unsigned test = 0;
+
     // Loop to find range
     while((currentYAxisPosition >= 0) && (currentTimeMilliseconds < (120*passesPerSecond))) {
         // Find force of air on shell
@@ -73,6 +76,12 @@ double calculateRangeMetric(double shellDiameterInMeters, double angleOfGunDegre
         // Update current shell angle
         currentShellAngleRadians = atan((yAxisVelocity/xAxisVelocity));
 
+        /* Check if 10 seconds have passed
+        test = ((currentTimeMilliseconds%passesPerSecond) );
+        if((test == 0) && (currentTimeMilliseconds > passesPerSecond)) {
+            printf("%5.2f  |  %5.2f    |  %d\n",currentXAxisPosition, currentYAxisPosition, currentTimeMilliseconds/passesPerSecond);
+        }
+         */
         // Update current time in milliseconds
         currentTimeMilliseconds++;
 
