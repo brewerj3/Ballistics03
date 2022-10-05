@@ -1,14 +1,16 @@
 
 #include <stdio.h>
-#include <math.h>
 
 #include "BallisticCalc.h"
 
 int main() {
     //printf("Range in Meters    = %5.2f \n",calculateRangeMetric((16 * 0.0254), 40, 762, 1225 ));
-    printf("Angle  |  Range\n");
+    printf("Angle   |  Range\n");
+    printf("Degrees |    Meters     |   Yards\n");
+    double temp = 0;
     for(int i = 10; i<=45;i=i+5) {
-        printf("   %i  |   %5.2f \n",i, calculateRangeMetric((16 * 0.0254), i, 762, 1225 ));
+        temp = calculateRangeMetric((16 * 0.0254), i, 762, 1225 );
+        printf("   %i   |   %5.2f    |   %5.2f \n",i, temp,(temp*1.09361));
     }
     return 0;
 }

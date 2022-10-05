@@ -1,6 +1,5 @@
 
 #include <math.h>
-#include <stdio.h>
 
 #include "BallisticCalc.h"
 
