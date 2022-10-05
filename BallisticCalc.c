@@ -4,7 +4,7 @@
 #include "BallisticCalc.h"
 
 const double gravitationalAcceleration = -9.8;
-const double passesPerSecond = 1000;
+const double passesPerSecond = 10000;
 const double airDensity = 1.204;
 const double dragCoefficiant = 0.186;
 
